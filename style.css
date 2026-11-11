@@ -2199,7 +2199,7 @@ button {
 
 .album__book,
 .album__page {
-  background-image: url("./assets/art/paper.jpg");
+  background-image: url("./art/paper.jpg");
   background-size: 320px 320px;
 }
 
