@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f2e8">
+  <meta name="description" content="A little world, made just for you.">
+  <title>A Little World</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./vendor/three/build/three.module.js",
+        "three/addons/": "./vendor/three/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div id="app">
+
+    <!-- ============ 门 ============ -->
+    <section class="gate" id="gate">
+      <div class="gate__inner">
+        <div class="gate__left">
+          <h1 class="gate__title">A Little<br>World</h1>
+          <p class="gate__sub">A WORLD MADE JUST FOR YOU.</p>
+        </div>
+
+        <div class="gate__right">
+          <form class="gate__form" id="gate-form" autocomplete="off">
+            <label class="gate__label" for="password">ENTER THE WORLD</label>
+            <input
+              class="gate__input"
+              id="password"
+              name="password"
+              type="password"
+              inputmode="numeric"
+              placeholder="六位数字"
+              autocomplete="off"
+              required
+            >
+            <button class="gate__button" type="submit">进入</button>
+            <p class="gate__error" id="gate-error" role="alert"></p>
+            <p class="gate__hint" id="gate-hint"></p>
+          </form>
+        </div>
+      </div>
+
+      <p class="gate__footer">SOMEWHERE, A LITTLE WORLD IS WAITING.</p>
+    </section>
+
+    <!-- ============ 房间 ============ -->
+    <main class="world" id="world" hidden aria-label="3D 房间"></main>
+    <div class="vignette" aria-hidden="true"></div>
+
+    <!-- ============ 界面 ============ -->
+    <header class="hud" id="hud" hidden>
+      <div class="hud__brand">
+        <span class="hud__title">A Little World</span>
+        <span class="hud__tag">for you</span>
+      </div>
+      <button class="hud__back" id="back" type="button" hidden>返回全景</button>
+    </header>
+
+    <p class="hint" id="hint" hidden>
+      拖动环视 · 缩放 · 点一点房间里的东西
+    </p>
+
+    <!-- 物件旁的小气泡 -->
+    <div class="bubble" id="bubble" aria-hidden="true">
+      <div class="bubble__inner">
+        <p class="bubble__title" id="bubble-title"></p>
+        <p class="bubble__body" id="bubble-body"></p>
+      </div>
+      <span class="bubble__tail"></span>
+    </div>
+
+    <!-- 浮空唱片 -->
+    <div class="record" id="record" aria-hidden="true">
+      <div class="record__backdrop" id="record-backdrop"></div>
+
+      <div class="record__stage" role="dialog" aria-modal="true" aria-label="唱片">
+        <button class="record__close" id="record-close" type="button" aria-label="关闭">×</button>
+
+        <div class="record__art">
+          <div class="record__sleeve" id="record-sleeve"></div>
+          <div class="record__disc">
+            <div class="record__label" id="record-label"></div>
+            <span class="record__hole"></span>
+          </div>
+        </div>
+
+        <div class="record__meta">
+          <div class="record__text">
+            <h2 class="record__title" id="record-title"></h2>
+            <p class="record__artist" id="record-artist"></p>
+            <p class="record__album" id="record-album"></p>
+          </div>
+          <a class="record__play" id="record-play" href="#" target="_blank" rel="noreferrer" aria-label="在网易云打开">
+            <span class="record__play-icon"></span>
+          </a>
+        </div>
+
+        <div class="record__foot">
+          <button class="record__nav" id="record-prev" type="button">上一张</button>
+          <span class="record__count" id="record-count">01 / 11</span>
+          <button class="record__nav" id="record-next" type="button">下一张</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="notes" id="notes" aria-hidden="true"></div>
+
+    <!-- 装电影的小木箱 -->
+    <div class="movies" id="movies" aria-hidden="true">
+      <div class="movies__backdrop" id="movies-backdrop"></div>
+      <div class="movies__stage" role="dialog" aria-modal="true" aria-label="电影">
+        <button class="movies__close" id="movies-close" type="button" aria-label="关闭">×</button>
+        <button class="movies__arrow movies__arrow--left" id="mv-prev" type="button" aria-label="上一部">‹</button>
+        <div class="movies__deck" id="movies-deck"></div>
+        <button class="movies__arrow movies__arrow--right" id="mv-next" type="button" aria-label="下一部">›</button>
+
+        <div class="movies__review" id="mv-review" hidden>
+          <h3 id="mv-review-title"></h3>
+          <textarea id="mv-review-text" placeholder="写点什么……"></textarea>
+          <button id="mv-review-save" type="button">保存</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 悬浮书架 -->
+    <div class="library" id="library" aria-hidden="true">
+      <div class="library__backdrop" id="library-backdrop"></div>
+      <div class="library__stage">
+        <button class="library__close" id="library-close" type="button" aria-label="关闭">×</button>
+        <div class="library__shelf">
+          <div class="library__books" id="library-books"></div>
+          <div class="library__board"></div>
+        </div>
+        <button class="library__add" id="library-add" type="button">＋ 放一本书</button>
+      </div>
+    </div>
+
+    <div class="screen-hint" id="screen-hint">双击屏幕暂停音乐</div>
+
+    <div class="poster-edit" id="poster-edit">
+      <label>更换海报照片<input type="file" id="poster-file" accept="image/*" hidden></label>
+    </div>
+
+    <!-- 看图 -->
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+      <img id="lightbox-img" alt="">
+    </div>
+
+    <!-- 阅读 -->
+    <div class="reader" id="reader" hidden>
+      <div class="reader__bar">
+        <span class="reader__title" id="reader-title"></span>
+        <a class="reader__open" id="reader-open" href="#" target="_blank" rel="noopener">在新标签打开</a>
+        <button class="reader__close" id="reader-close" type="button" aria-label="关闭">×</button>
+      </div>
+      <iframe class="reader__frame" id="reader-frame" title="阅读"></iframe>
+      <p class="reader__tip" id="reader-tip">部分网站禁止内嵌，加载空白时点「在新标签打开」</p>
+    </div>
+
+    <!-- 地图涂鸦 -->
+    <div class="mapdraw" id="mapdraw" aria-hidden="true">
+      <div class="mapdraw__backdrop"></div>
+      <div class="mapdraw__stage">
+        <button class="mapdraw__close" id="mapdraw-close" type="button" aria-label="关闭">×</button>
+        <div class="mapdraw__wrap">
+          <img id="mapdraw-img" src="./assets/art/china-map.png" alt="中国地图">
+          <canvas id="mapdraw-canvas"></canvas>
+          <div class="mapdraw__markers" id="mapdraw-markers"></div>
+          <div class="mapdraw__actions">
+            <button id="map-edit" type="button">编辑</button>
+            <button id="map-draw" type="button">涂鸦</button>
+            <button id="map-add" type="button">加地点</button>
+          </div>
+        </div>
+        <div class="mapdraw__bar" hidden>
+          <button class="mapdraw__dot is-active" data-color="#2b2b2a" type="button" aria-label="灰黑"></button>
+          <button class="mapdraw__dot mapdraw__dot--green" data-color="#5c6b4f" type="button" aria-label="绿"></button>
+          <button class="mapdraw__dot mapdraw__dot--rust" data-color="#a8694f" type="button" aria-label="赭红"></button>
+          <button class="mapdraw__text mapdraw__eraser" id="map-erase" type="button">橡皮</button>
+          <button class="mapdraw__text" id="mapdraw-clear" type="button">清空</button>
+          <button class="mapdraw__text" id="mapdraw-save" type="button">保存</button>
+        </div>
+        <div class="mapdraw__memory" id="mapdraw-memory" hidden>
+          <h4 id="mapdraw-memory-title"></h4>
+          <textarea id="mapdraw-memory-text" placeholder="写下你与这座城市的故事……"></textarea>
+          <div class="mapdraw__memory-actions">
+            <button id="mapdraw-memory-delete" class="is-danger" type="button" hidden>删除这个地点</button>
+            <button id="mapdraw-memory-close" type="button">保存</button>
+          </div>
+        </div>
+
+        <div class="mapadd" id="mapadd" hidden>
+          <span>在这里添加地点？</span>
+          <button id="mapadd-yes" type="button">确定</button>
+          <button id="mapadd-no" type="button">取消</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 相机相册 -->
+    <div class="cam" id="cam" aria-hidden="true">
+      <div class="cam__backdrop" id="cam-backdrop"></div>
+      <div class="cam__stage" role="dialog" aria-modal="true" aria-label="相机相册">
+        <button class="cam__close" id="cam-close" type="button" aria-label="关闭">×</button>
+        <button class="cam__arrow cam__arrow--left" id="cam-prev" type="button" aria-label="上一张">‹</button>
+        <div class="cam__deck" id="cam-deck"></div>
+        <button class="cam__arrow cam__arrow--right" id="cam-next" type="button" aria-label="下一张">›</button>
+        <div class="cam__foot">
+          <span class="cam__count" id="cam-count"></span>
+          <label class="cam__add">＋ 添加照片<input type="file" id="cam-file" accept="image/*" multiple hidden></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 鸟相册 -->
+    <div class="album" id="album" aria-hidden="true">
+      <div class="album__backdrop" id="album-backdrop"></div>
+      <div class="album__stage" role="dialog" aria-modal="true" aria-label="观鸟相册">
+        <button class="album__close" id="album-close" type="button" aria-label="关闭">×</button>
+        <div class="album__book" id="album-book"></div>
+        <div class="album__foot">
+          <button class="album__nav" id="album-prev" type="button" aria-label="上一页">‹</button>
+          <span class="album__count" id="album-count"></span>
+          <button class="album__nav" id="album-next" type="button" aria-label="下一页">›</button>
+          <label class="album__add">＋<input type="file" id="album-add" accept="image/*" multiple hidden></label>
+          <input type="file" id="album-replace" accept="image/*" hidden>
+        </div>
+      </div>
+    </div>
+
+    <!-- 磁带语音信 -->
+    <div class="tape" id="tape" aria-hidden="true">
+      <div class="tape__backdrop" id="tape-backdrop"></div>
+      <div class="tape__stage" role="dialog" aria-modal="true" aria-label="磁带">
+        <button class="tape__close" id="tape-close" type="button" aria-label="关闭">×</button>
+
+        <div class="tape__shell">
+          <div class="tape__label">SIDE A</div>
+          <div class="tape__window">
+            <span class="tape__reel" id="reel-a"></span>
+            <span class="tape__reel" id="reel-b"></span>
+          </div>
+        </div>
+
+        <div class="tape__controls">
+          <button class="tape__play" id="tape-play" type="button" aria-label="播放"></button>
+          <div class="tape__bar"><div class="tape__progress" id="tape-progress"></div></div>
+          <span class="tape__time" id="tape-time">00:00</span>
+        </div>
+
+        <audio id="tape-audio" src="./assets/audio/letter.m4a" preload="metadata"></audio>
+      </div>
+    </div>
+
+    <!-- 笔记本文章 -->
+    <div class="article" id="article" aria-hidden="true">
+      <div class="article__backdrop" id="article-backdrop"></div>
+      <article class="article__paper" role="dialog" aria-modal="true" aria-labelledby="article-title">
+        <p class="article__kicker" id="article-kicker"></p>
+        <h2 class="article__title" id="article-title"></h2>
+        <p class="article__sub" id="article-sub"></p>
+        <div class="article__body" id="article-body"></div>
+        <button class="article__close" id="article-close" type="button">合上</button>
+      </article>
+    </div>
+
+    <div class="letter" id="letter" aria-hidden="true">
+      <div class="letter__backdrop" id="letter-backdrop"></div>
+      <article class="letter__paper" role="dialog" aria-modal="true" aria-labelledby="letter-title">
+        <p class="letter__kicker" id="letter-kicker"></p>
+        <h2 class="letter__title" id="letter-title"></h2>
+        <div class="letter__body" id="letter-body"></div>
+        <p class="letter__sign" id="letter-sign"></p>
+        <button class="letter__close" id="letter-close" type="button">收好 · 回到房间</button>
+      </article>
+    </div>
+
+    <div class="intro" id="intro" aria-hidden="true">
+      <span id="intro-text"></span>
+    </div>
+
+    <div class="loading" id="loading" hidden>
+      <div class="loading__mark"></div>
+      <p class="loading__text">正在把房间布置好…</p>
+    </div>
+
+    <div class="fallback" id="fallback" hidden>
+      <p>这个浏览器没能打开 3D 房间。<br>换 Chrome / Edge / Safari 试试。</p>
+    </div>
+  </div>
+
+  <script type="module" src="./js/main.js?v=20261111d"></script>
+</body>
+</html>
