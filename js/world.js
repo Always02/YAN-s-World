@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import { C, FLOOR_Y, solid, add, canvasTexture } from "./lib.js?v=20261111d";
-import { buildProps } from "./props.js?v=20261111d";
+import { C, FLOOR_Y, solid, add, canvasTexture } from "./lib.js?v=20261111e";
+import { buildProps } from "./props.js?v=20261111e";
 
 /* 每个可点物品聚焦时的镜头目标 */
 const FOCUS = {
@@ -360,14 +360,14 @@ export function createWorld(container, config) {
   }
 
   // 自行车：bike1 的导出轴向有问题，先用原来的 bike.glb
-  modelsToLoad.push(loadModel("./assets/models/bike.glb", {
+  modelsToLoad.push(loadModel("./models/bike.glb", {
     height: 1.3, x: 2.55, z: 1.75, rotY: -1.15, hotspot: "bike"
   }));
 
   // 吉他：原模型 + 墨绿贴图
   modelsToLoad.push(new Promise((resolve) => {
     loader.load(
-      "./assets/models/guitar.glb",
+      "./models/guitar.glb",
       (gltf) => {
         const model = gltf.scene;
         recolorGuitarTexture(model);
@@ -385,7 +385,7 @@ export function createWorld(container, config) {
   // 架子鼓：原模型 + 贴图换色（薄荷绿 → 胡桃木）
   modelsToLoad.push(new Promise((resolve) => {
     loader.load(
-      "./assets/models/drums.glb",
+      "./models/drums.glb",
       (gltf) => {
         const model = gltf.scene;
         recolorDrumTexture(model);
@@ -403,7 +403,7 @@ export function createWorld(container, config) {
   // 落地灯：只取 furniture.glb 里名字带 lamp 的部件
   modelsToLoad.push(new Promise((resolve) => {
     loader.load(
-      "./assets/models/furniture.glb",
+      "./models/furniture.glb",
       (gltf) => {
         const furniture = gltf.scene;
         furniture.scale.setScalar(0.28);
@@ -591,7 +591,7 @@ export function createWorld(container, config) {
 
   const defaultShot = new Image();
   defaultShot.onload = () => setFrameImage(defaultShot);
-  defaultShot.src = "./assets/camera/c2.jpg";
+  defaultShot.src = "./camera/c2.jpg";
 
   let mapOverlay = null;
 

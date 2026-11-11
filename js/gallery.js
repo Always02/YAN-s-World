@@ -9,5 +9,5 @@ export const birdSets = [
 
 export const cameraPhotos = ["c1", "c2", "c3", "c4", "c5"];
 
-export const birdSrc = (name) => `./assets/birds/${name}.jpg`;
-export const cameraSrc = (name) => `./assets/camera/${name}.jpg`;
+export const birdSrc = (name) => `./birds/${name}.jpg`;
+export const cameraSrc = (name) => `./camera/${name}.jpg`;

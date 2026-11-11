@@ -1,7 +1,7 @@
-import { config } from "./content.js?v=20261111d";
-import { tracks, playlistUrl } from "./playlist.js?v=20261111d";
-import { birdSets, cameraPhotos, birdSrc, cameraSrc } from "./gallery.js?v=20261111d";
-import { createWorld } from "./world.js?v=20261111d";
+import { config } from "./content.js?v=20261111e";
+import { tracks, playlistUrl } from "./playlist.js?v=20261111e";
+import { birdSets, cameraPhotos, birdSrc, cameraSrc } from "./gallery.js?v=20261111e";
+import { createWorld } from "./world.js?v=20261111e";
 
 const $ = (id) => document.getElementById(id);
 
@@ -416,11 +416,11 @@ recordPlay.addEventListener("click", () => {
    电影木箱
 ------------------------------------------------------------------- */
 const MOVIES = [
-  { title: "奥德赛", img: "./assets/movies/odyssey.jpg" },
-  { title: "浴血黑帮", img: "./assets/movies/peaky.jpg" },
-  { title: "天空之城", img: "./assets/movies/castle.jpg" },
-  { title: "路边野餐", img: "./assets/movies/kaili.jpg" },
-  { title: "人生大事", img: "./assets/movies/stars.jpg" }
+  { title: "奥德赛", img: "./movies/odyssey.jpg" },
+  { title: "浴血黑帮", img: "./movies/peaky.jpg" },
+  { title: "天空之城", img: "./movies/castle.jpg" },
+  { title: "路边野餐", img: "./movies/kaili.jpg" },
+  { title: "人生大事", img: "./movies/stars.jpg" }
 ];
 
 const movieDeck = $("movies-deck");
@@ -1192,7 +1192,7 @@ function renderAlbum() {
     cover.innerHTML = `
       <div class="album__cover-photo" style="background-image:url('${albumPhotos[0] || ""}')"></div>
       <div class="album__cover-text">
-        <img class="album__cover-guan" src="./assets/art/guan.png" alt="观">
+        <img class="album__cover-guan" src="./art/guan.png" alt="观">
         <div class="album__cover-meta">百鸟图鉴<br>A BOOK OF BIRDS<br>盐</div>
       </div>`;
     albumBook.appendChild(cover);
@@ -1320,8 +1320,8 @@ $("album-replace").addEventListener("change", (event) => {
    磁带 / 文章 / 乐器声音
 ------------------------------------------------------------------- */
 const objectSounds = {
-  guitar: new Audio("./assets/audio/guitar.m4a"),
-  drums: new Audio("./assets/audio/drums.mp3")
+  guitar: new Audio("./audio/guitar.m4a"),
+  drums: new Audio("./audio/drums.mp3")
 };
 
 Object.values(objectSounds).forEach((audio) => {
@@ -1493,15 +1493,15 @@ $("letter-backdrop").addEventListener("click", () => {
 /* ------------------------------------------------------------------
    锈湖环境音（用你给的曲子）
 ------------------------------------------------------------------- */
-const rustyAudio = new Audio("./assets/audio/rusty.mp3");
+const rustyAudio = new Audio("./audio/rusty.mp3");
 rustyAudio.loop = true;
 rustyAudio.volume = 0.9;
 
-const hollowAudio = new Audio("./assets/audio/hollow.mp3");
+const hollowAudio = new Audio("./audio/hollow.mp3");
 hollowAudio.loop = true;
 hollowAudio.volume = 0.5;
 
-const silksongAudio = new Audio("./assets/audio/silksong.mp3");
+const silksongAudio = new Audio("./audio/silksong.mp3");
 silksongAudio.loop = true;
 silksongAudio.volume = 0.5;
 
@@ -1562,10 +1562,10 @@ function stopRustyAmbient() {
    显示器：壁纸轮播 / 键盘：锈湖生日
 ------------------------------------------------------------------- */
 const wallpapers = [
-  "./assets/screen/wp1.jpg",
-  "./assets/screen/wp2.jpg",
-  "./assets/screen/wp3.jpg",
-  "./assets/screen/wp4.jpg"
+  "./screen/wp1.jpg",
+  "./screen/wp2.jpg",
+  "./screen/wp3.jpg",
+  "./screen/wp4.jpg"
 ].map((src) => {
   const img = new Image();
   img.src = src;
@@ -1573,7 +1573,7 @@ const wallpapers = [
 });
 
 const rustyImage = new Image();
-rustyImage.src = "./assets/screen/rusty.jpg";
+rustyImage.src = "./screen/rusty.jpg";
 
 let wallpaperIndex = -1;
 let rustyTimer = 0;

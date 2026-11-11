@@ -2,11 +2,11 @@ import * as THREE from "three";
 import {
   C, FLOOR_Y, add, rbox, group, cylGeo, sphereGeo, solid, glassy,
   canvasTexture, softShadow, castAll
-} from "./lib.js?v=20261111d";
+} from "./lib.js?v=20261111e";
 import {
   rugArt, screenArt, posterArt, cardNightHeron, cardSunflower,
   cardTequila, cardBebop, cardAerial, noteSeeds, sleeveArt, postcardArt, postcardForest
-} from "./art.js?v=20261111d";
+} from "./art.js?v=20261111e";
 
 /* ==================================================================
    小工具
@@ -1533,11 +1533,11 @@ export function buildProps(scene) {
     return mesh;
   }
 
-  parts.paintWheat = painting("./assets/art/wheatfield.jpg", 0.9, 0.86, -2.73, 2.62, -2.795, 0);
-  parts.paintAlmond = painting("./assets/art/almond.jpg", 1.02, 0.8, -1.43, 2.26, -2.795, 0);
+  parts.paintWheat = painting("./art/wheatfield.jpg", 0.9, 0.86, -2.73, 2.62, -2.795, 0);
+  parts.paintAlmond = painting("./art/almond.jpg", 1.02, 0.8, -1.43, 2.26, -2.795, 0);
 
   // 沙发上方：中国地图
-  const mapTex = new THREE.TextureLoader().load("./assets/art/china-map.png");
+  const mapTex = new THREE.TextureLoader().load("./art/china-map.png");
   mapTex.colorSpace = THREE.SRGBColorSpace;
   mapTex.anisotropy = 8;
   rbox(scene, 1.62, 1.16, 0.03, solid("#e8ddc9", 1), [-3.795, 2.12, 0.62], [0, Math.PI / 2, 0], 0.004);
@@ -1645,7 +1645,7 @@ export function buildProps(scene) {
   parts.letter = envelope;
 
   // 左墙海报（换成新的星际牛仔）
-  const posterTex = new THREE.TextureLoader().load("./assets/art/bebop-poster.png");
+  const posterTex = new THREE.TextureLoader().load("./art/bebop-poster.png");
   posterTex.colorSpace = THREE.SRGBColorSpace;
   const poster = new THREE.Mesh(
     new THREE.PlaneGeometry(0.72, 1.15),
