@@ -4,12 +4,12 @@
    ================================================================== */
 
 export const config = {
-  password: "041111",
+  password: "031111",
 
   title: "A Little World",
   subtitle: "A WORLD MADE JUST FOR YOU.",
   footer: "SOMEWHERE, A LITTLE WORLD IS WAITING.",
-  hint: "提示：一个你熟悉的六位数字",
+  hint: "提示：一个关于盐的六位数字",
 
   // 进门后飘的那行字，留空就不显示
   intro: "",
@@ -57,7 +57,7 @@ export const config = {
     shelf: { title: "展示架", body: "" },
     bike: { title: "自行车", body: "" },
     sports: { title: "手套与球拍", body: "" },
-    camera: { title: "望远镜与鸟图鉴", body: "" },
+    camera: { title: "相机", body: "" },
     table: { title: "茶几", body: "" },
     seeds: { title: "瓜子", body: "" },
     sunflowers: { title: "向日葵", body: "" },
